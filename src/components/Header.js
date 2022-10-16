@@ -3,7 +3,14 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../Context/UseContext';
 
 const Header = () => {
-  const {user} = useContext(AuthContext)
+  const { user,setUser, logOut } = useContext(AuthContext);
+
+  const handalLogOut = ()=>{
+    logOut()
+    .then(()=>{})
+    .catch(error=>console.log(error))
+    
+  }
     return (
       <div>
         <div className="flex flex-wrap place-items-center">
@@ -25,23 +32,31 @@ const Header = () => {
                       Orders
                     </Link>
                   </li>
-                  <li>
-                    <Link className="hover:text-gray-200" to="/login">
-                      Login
-                    </Link>
-                  </li>
+
                   <li>
                     <Link className="hover:text-gray-200" to="/register">
                       Register
                     </Link>
                   </li>
+                  {user?.email ? (
+                    <li>
+                      <Link
+                        onClick={handalLogOut}
+                        className="hover:text-gray-200"
+                        to="/register"
+                      >
+                        Log Out
+                      </Link>
+                    </li>
+                  ) : (
+                    <li>
+                      <Link className="hover:text-gray-200" to="/login">
+                        Login
+                      </Link>
+                    </li>
+                  )}
                 </ul>
-                <div>
-                  {
-                    user?.email ?  <p>Welcome {user.email}</p> : undefined
-                  }
-                 
-                </div>
+                <div>{user?.email && <p>Welcome {user.email}</p>}</div>
                 <div className="hidden xl:flex  space-x-5 items-center">
                   <Link
                     className="flex items-center hover:text-gray-200"

@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Link, useNavigate,  } from 'react-router-dom';
 import { AuthContext } from '../Context/UseContext';
 
 const Register = () => {
-    const { registerWithEmail } = useContext(AuthContext);
+    const {user, registerWithEmail } = useContext(AuthContext);
+    const navigate = useNavigate();
+   
      const onSubmit = (e) => {
        e.preventDefault();
        const form = e.target;
@@ -11,18 +13,25 @@ const Register = () => {
        const email = form.email.value;
        const password = form.password.value;
        console.log(name, email, password);
-       form.reset();
+       
 
        registerWithEmail(email, password)
          .then((result) => {
            const user = result.user;
-
+           form.reset();
+          
            console.log(user);
          })
          .catch((error) => {
            console.error(error);
          });
      };
+    useEffect(() => {
+      if(user){
+        navigate("/");
+      }
+      
+    }, [user,navigate]);
      return (
        <div>
          <div className="hero min-h-screen bg-base-200">

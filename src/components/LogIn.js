@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../Context/UseContext';
 
 const LogIn = () => {
-    const {loginWithEmail} = useContext(AuthContext);
+    const { loginWithEmail, setUser } = useContext(AuthContext);
     const onSubmit = (e)=>{
         e.preventDefault();
         const form = e.target;
@@ -15,7 +15,8 @@ const LogIn = () => {
         loginWithEmail(email, password)
         .then(result=>{
             const user = result.user
-            console.log(user);
+            // console.log(user.email);
+            setUser(user.email);
         })
         .catch(error => console.error(error));
     }
